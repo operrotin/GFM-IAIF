@@ -45,10 +45,11 @@ This function is based on the iaif.m implementation from the COVAREP toolbox
 #### Outputs
 -  av  	:  [1xnv]	LP coefficients of vocal tract contribution
 -  ag 	:  [1xng]	LP coefficients of glottis contribution
+-  al 	:  [1x2]	LP coefficients of lip radiation contribution
 
 #### Examples
-- [av,ag] = gfmiaif(x) provides the LP coefficients of vocal tract and glottis with default parameters
-- [av,ag] = gfmiaif(x,nv,ng,d,win) allows to choose parameters
+- [av,ag,al] = gfmiaif(x) provides the LP coefficients of vocal tract, glottis and lip radiation with default parameters
+- [av,ag,al] = gfmiaif(x,nv,ng,d,win) allows to choose parameters
 
 GFM-IAIF has been designed on the assumption that a third order filter allows to
 describe most of the glottis-related timbre variations (e.g., tenseness, effort)
