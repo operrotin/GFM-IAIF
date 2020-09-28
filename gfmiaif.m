@@ -22,12 +22,13 @@
 % Outputs
 %  av  	:  [1xnv]	LP coefficients of vocal tract contribution
 %  ag 	:  [1xng]	LP coefficients of glottis contribution
+%  al 	:  [1x2]	LP coefficients of lip radiation contribution
 %
 %
 % Examples
-%  [av,ag] = gfmiaif(x) provides the LP coefficients of vocal tract and
-%               glottis with default parameters
-%  [av,ag] = gfmiaif(x,nv,ng,d,win) allows to choose parameters
+%  [av,ag,al] = gfmiaif(x) provides the LP coefficients of vocal tract,
+%               glottis and lip radiation with default parameters
+%  [av,ag,al] = gfmiaif(x,nv,ng,d,win) allows to choose parameters
 %
 % GFM-IAIF has been designed on the assumption that a third order filter
 % allows to describe most of the glottis-related timbre variations (e.g.,
@@ -72,7 +73,7 @@
 %
 
 
-function [av,ag] = gfmiaif(s_gvl,nv,ng,d,win)
+function [av,ag,al] = gfmiaif(s_gvl,nv,ng,d,win)
 
 % ----- Set default parameters -------------------------------------------
 
@@ -106,11 +107,14 @@ idx_pf = (Lpf+1):length(x_gvl);     % Indexes that exclude the pre-frame
 
 % ----- Cancel lip radiation contribution --------------------------------
 
+% Define lip radiation filter
+al = [1 -d];
+
 % Integration of signal using filter 1/[1 -d z^(-1)]
 % - Input signal (for LPC estimation)
-s_gv = filter(1,[1 -d],s_gvl);
+s_gv = filter(1,al,s_gvl);
 % - Pre-framed input signal (for LPC envelope removal)
-x_gv = filter(1,[1 -d],x_gvl);
+x_gv = filter(1,al,x_gvl);
 
 
 % ----- Gross glottis estimation -----------------------------------------
